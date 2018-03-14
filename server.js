@@ -66,7 +66,7 @@ app.get('/', function(req, res){
         });
     });
     console.log("articles added");
-    res.render("index", newArticle);
+    res.render("index", {newArticle});
 });
 
 // Route for getting all Articles from the db
@@ -89,12 +89,21 @@ app.get('/saved', function(req, res){
     .then(function(dbArticle) {
       // View the added result in the console
       console.log(dbArticle);
-      res.render("saved", dbArticle);
+      res.render("saved", {dbArticle});
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
       return res.json(err);
     });
+});
+
+// Route for grabbing a specific Article by id, populate it with it's note
+app.get("/articles/:id", function(req, res) {
+  db.Article.findOne({_id: req.params.id})
+  .populate('note')
+  .then(function(dbArticle){
+    res.json(dbArticle);
+  });
 });
 
 

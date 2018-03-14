@@ -4,10 +4,24 @@ $(document).ready(function(){
     $('#get-news').on('click', function(event){
         event.preventDefault();
 
-        $.get('/', function(res, req){
-            data: res
-        });
+        // Launch Alert Modal
+        $('#myModal').modal()
+
+        // $.get('/', function(res, req){
+        //     data: res
+        // });
     });
+
+    // Save Article 
+    $('#save-article').on('click', function(event){
+        event.preventDefault();
+
+        $.get('/article/_id', function(res, req){
+            
+        })
+
+
+    })
 })
 
  
