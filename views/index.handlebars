@@ -11,13 +11,14 @@
 </div>
 <div class="row">
     <div class="col">
-        {{#each title}}
+        {{#each newArticle}}
             <div id="articles">
                 <div class="card">
-                    <h4>{{title}}</h4>
+                    <h4>{{title.title}}</h4>
                     <a href="{{link}}">{{link}}</a>
                     <p>{{author}}</p>
                     <p>{{date}}</p>
+                    <button>Save Article</button>
                 </div>
             </div>
         {{/each}}

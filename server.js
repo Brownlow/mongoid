@@ -55,14 +55,15 @@ app.get('/', function(req, res){
                 date:date,
                 saved:saved
             };
+            
             db.Article.create(newArticle)
             .then(function(dbArticle) {
-              
+                //console.log(dbArticle)
             })
             .catch(function(err) {
               return res.json(err);
             });      
-        })
+        });
     });
     console.log("articles added");
     res.render("index", newArticle);
@@ -71,7 +72,6 @@ app.get('/', function(req, res){
 
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
-  // TODO: Finish the route so it grabs all of the articles
   db.Article.find({})
   .then(function(dbArticle){
     res.json(dbArticle)
@@ -86,18 +86,17 @@ app.get("/articles", function(req, res) {
 // Route to get all articles marked as saved
 app.get('/saved', function(req, res){
 
-    db.Article.create(newArticle)
+    db.Article.find({ saved: true })
         .then(function(dbArticle) {
           // View the added result in the console
           console.log(dbArticle);
+          res.render("saved", dbArticle);
         })
         .catch(function(err) {
           // If an error occurred, send it to the client
           return res.json(err);
         });
-
-    res.render("saved");
-
+    
 });
 
 
