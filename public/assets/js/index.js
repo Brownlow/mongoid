@@ -7,21 +7,19 @@ $(document).ready(function(){
         // Launch Alert Modal
         $('#myModal').modal()
 
-        // $.get('/', function(res, req){
-        //     data: res
-        // });
     });
 
     // Save Article 
     $('#save-article').on('click', function(event){
         event.preventDefault();
+        
+        var thisId = $(this).attr("data-id");
 
-        $.get('/article/_id', function(res, req){
-            
-        })
-
-
-    })
-})
+        $.ajax({
+            method: "GET",
+            url: "/:id" + thisId
+          })
+    });
+});
 
  

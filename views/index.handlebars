@@ -9,16 +9,18 @@
   <h1 class="display-4">Saved Articles</h1>
   <hr class="my-4">
 </div>
-<div class="row">
-    <div class="col">
-        {{#each newArticle}}
-            <div id="articles">
-                <div class="card">
-                    <h4>{{title}}</h4>
-                    <a href="{{link}}">{{link}}</a>
-                    <p>{{author}}</p>
-                    <p>{{date}}</p>
-                    <button type="submit" id="save-article" class="btn btn-success">Save Article</button>
+<div class="container">
+    <div class="row">
+        {{#each articles}}
+            <div class="col-3">
+                <div id="articles">
+                    <div class="card">
+                        <h4>{{this.title}}</h4>
+                        <a href="{{this.link}}">{{this.link}}</a>
+                        <p>{{this.author}}</p>
+                        <p>{{this.date}}</p>
+                        <button type="submit" id="save-article" class="btn btn-success">Save Article</button>
+                    </div>
                 </div>
             </div>
         {{/each}}

@@ -37,7 +37,21 @@ var db = require("./models");
 
 var newArticle = {};
 
-app.get('/', function(req, res){
+app.get("/", function(req, res) {
+	db.Article.find({}, null, {sort: {created: -1}}, function(err, data) {
+		if(data.length === 0) {
+			res.render("placeholder", {
+        message: "There's nothing scraped yet. Please click \"Scrape For Newest Articles\" for fresh and delicious news."
+      });
+		}
+		else{
+			res.render("index", {articles: data});
+		}
+	});
+});
+
+// Scrape Data
+app.get('/scrape', function(req, res){
     request('https://www.reddit.com/r/webdev', function(error, repsonse, html){
 
         var $ = cheerio.load(html);
@@ -49,6 +63,7 @@ app.get('/', function(req, res){
             var saved = false;
         
             newArticle = {
+                id:id,
                 title:title,
                 link:link,
                 author:author,
@@ -65,8 +80,8 @@ app.get('/', function(req, res){
             });      
         });
     });
-    console.log("articles added");
-    res.render("index", {newArticle});
+    console.log("Scrape finished.");
+		res.redirect("/");
 });
 
 // Route for getting all Articles from the db
@@ -80,6 +95,20 @@ app.get("/articles", function(req, res) {
     res.json(err);
   });
 });
+
+// Route to get all articles and mark them as saved
+app.get('/:id', function(req, res){
+
+  console.log(req.params.id)
+  
+  db.Article.findById({_id: req.params.id}, {set: {saved: true}})
+  .then(function(dbArticle){
+    res.redirect("/saved");
+  })
+  .catch(function(err){
+    return res.json(err)
+  })
+})
 
 
 // Route to get all articles marked as saved
@@ -98,12 +127,12 @@ app.get('/saved', function(req, res){
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
-app.get("/articles/:id", function(req, res) {
-  db.Article.findOne({_id: req.params.id})
-  .populate('note')
-  .then(function(dbArticle){
-    res.json(dbArticle);
-  });
+app.post("/articles/:id", function(req, res) {
+
+  var note = new note(req.body)
+
+  note.save()
+  
 });
 
 
