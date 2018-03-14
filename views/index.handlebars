@@ -1,19 +1,25 @@
 <nav class="navbar">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/">New Articles</a></li>
+    <ul class="nav">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a  class="nav-link" href="/saved">Saved Articles</a></li>
     </ul>
     <button class="button btn-success" id="get-news">Get News</button>
 </nav>
 <div class="jumbotron">
-  <h1 class="display-4">Get Your News</h1>
-  <p class="lead">Get news aggregated from the New York Times, Y and Z.</p>
+  <h1 class="display-4">Saved Articles</h1>
   <hr class="my-4">
-  <p class="lead">
-    <button class="button btn-success" id="get-news">Get News</button>
-  </p>
 </div>
 <div class="row">
     <div class="col">
+        {{#each title}}
+            <div id="articles">
+                <div class="card">
+                    <h4>{{title}}</h4>
+                    <a href="{{link}}">{{link}}</a>
+                    <p>{{author}}</p>
+                    <p>{{date}}</p>
+                </div>
+            </div>
+        {{/each}}
     </div>
 </div>

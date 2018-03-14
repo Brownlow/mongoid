@@ -13,6 +13,7 @@ var app = express();
 app.use(express.static("public"));
 
 // Connect Mongoose 
+mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/mongoid');
 
 var db = mongoose.connection;
@@ -20,8 +21,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log('connection made')
 });
-
-var collections = ["scrapeData"];
 
 // Handlebars
 app.engine("handlebars", exphbs({defaultLayout: 'main'}));
@@ -31,11 +30,12 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text());
-app.use(bodyParser.json({type: "application/vnd.api_json"}))
+app.use(bodyParser.json({type: "application/vnd.api_json"}));
 
+// Require all models
+var db = require("./models");
 
-//Routes
-//require("./routes/app-routes.js")(app);
+var newArticle = {};
 
 app.get('/', function(req, res){
     request('https://www.reddit.com/r/webdev', function(error, repsonse, html){
@@ -44,13 +44,62 @@ app.get('/', function(req, res){
         $('p.title').each(function(i, element){
             var title = $(element).text();
             var link = $(element).children().attr('href');
-
-            db.scrapeData.insert({title:title, link:link})
+            var author = $(element).siblings('.tagline').children('a').text();
+            var date = $(element).siblings('.tagline').children('time').text();
+            var saved = false;
+        
+            newArticle = {
+                title:title,
+                link:link,
+                author:author,
+                date:date,
+                saved:saved
+            };
+            db.Article.create(newArticle)
+            .then(function(dbArticle) {
+              
+            })
+            .catch(function(err) {
+              return res.json(err);
+            });      
         })
     });
-    
-    res.render("index", {thing: "thing"});
-})
+    console.log("articles added");
+    res.render("index", newArticle);
+});
+
+
+// Route for getting all Articles from the db
+app.get("/articles", function(req, res) {
+  // TODO: Finish the route so it grabs all of the articles
+  db.Article.find({})
+  .then(function(dbArticle){
+    res.json(dbArticle)
+  })
+  .catch(function(err) {
+    // If an error occurs, send it back to the client
+    res.json(err);
+  });
+});
+
+
+// Route to get all articles marked as saved
+app.get('/saved', function(req, res){
+
+    db.Article.create(newArticle)
+        .then(function(dbArticle) {
+          // View the added result in the console
+          console.log(dbArticle);
+        })
+        .catch(function(err) {
+          // If an error occurred, send it to the client
+          return res.json(err);
+        });
+
+    res.render("saved");
+
+});
+
 
 // Listen on Port 8000;
 app.listen(8000, function(){
