@@ -58,7 +58,7 @@ app.get('/', function(req, res){
             
             db.Article.create(newArticle)
             .then(function(dbArticle) {
-                //console.log(dbArticle)
+              //console.log(dbArticle)
             })
             .catch(function(err) {
               return res.json(err);
@@ -68,7 +68,6 @@ app.get('/', function(req, res){
     console.log("articles added");
     res.render("index", newArticle);
 });
-
 
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
@@ -87,16 +86,15 @@ app.get("/articles", function(req, res) {
 app.get('/saved', function(req, res){
 
     db.Article.find({ saved: true })
-        .then(function(dbArticle) {
-          // View the added result in the console
-          console.log(dbArticle);
-          res.render("saved", dbArticle);
-        })
-        .catch(function(err) {
-          // If an error occurred, send it to the client
-          return res.json(err);
-        });
-    
+    .then(function(dbArticle) {
+      // View the added result in the console
+      console.log(dbArticle);
+      res.render("saved", dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      return res.json(err);
+    });
 });
 
 
