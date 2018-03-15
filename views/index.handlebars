@@ -1,14 +1,3 @@
-<nav class="navbar">
-    <ul class="nav">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-        <li class="nav-item"><a  class="nav-link" href="/saved">Saved Articles</a></li>
-    </ul>
-    <button class="button btn-success" id="get-news">Get News</button>
-</nav>
-<div class="jumbotron">
-  <h1 class="display-4">Saved Articles</h1>
-  <hr class="my-4">
-</div>
 <div class="container">
     <div class="row">
         {{#each articles}}
@@ -19,14 +8,13 @@
                         <a href="{{this.link}}">{{this.link}}</a>
                         <p>{{this.author}}</p>
                         <p>{{this.date}}</p>
-                        <button type="submit" id="save-article" class="btn btn-success">Save Article</button>
+                        <button type="submit" id="save-article" data-id="{{this._id}}" class="btn btn-success" data-dismiss="modal">Save Article</button>
                     </div>
                 </div>
             </div>
         {{/each}}
     </div>
 </div>
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

@@ -38,14 +38,14 @@ var db = require("./models");
 var newArticle = {};
 
 app.get("/", function(req, res) {
-	db.Article.find({}, null, {sort: {created: -1}}, function(err, data) {
+	db.Article.find({}, function(err, data) {
 		if(data.length === 0) {
 			res.render("placeholder", {
         message: "There's nothing scraped yet. Please click \"Scrape For Newest Articles\" for fresh and delicious news."
       });
 		}
 		else{
-			res.render("index", {articles: data});
+      res.render("index", {articles: data});
 		}
 	});
 });
@@ -63,7 +63,7 @@ app.get('/scrape', function(req, res){
             var saved = false;
         
             newArticle = {
-                id:id,
+                id:req.params.id,
                 title:title,
                 link:link,
                 author:author,
@@ -73,7 +73,6 @@ app.get('/scrape', function(req, res){
             
             db.Article.create(newArticle)
             .then(function(dbArticle) {
-              //console.log(dbArticle)
             })
             .catch(function(err) {
               return res.json(err);
@@ -86,7 +85,7 @@ app.get('/scrape', function(req, res){
 
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
-  db.Article.find({})
+  db.Article.find({saved: false})
   .then(function(dbArticle){
     res.json(dbArticle)
   })
@@ -97,11 +96,9 @@ app.get("/articles", function(req, res) {
 });
 
 // Route to get all articles and mark them as saved
-app.get('/:id', function(req, res){
+app.get('/articles/:id', function(req, res){
 
-  console.log(req.params.id)
-  
-  db.Article.findById({_id: req.params.id}, {set: {saved: true}})
+  db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {saved: true}})
   .then(function(dbArticle){
     res.redirect("/saved");
   })
@@ -110,14 +107,12 @@ app.get('/:id', function(req, res){
   })
 })
 
-
 // Route to get all articles marked as saved
 app.get('/saved', function(req, res){
 
     db.Article.find({ saved: true })
     .then(function(dbArticle) {
       // View the added result in the console
-      console.log(dbArticle);
       res.render("saved", {dbArticle});
     })
     .catch(function(err) {
@@ -127,11 +122,14 @@ app.get('/saved', function(req, res){
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
-app.post("/articles/:id", function(req, res) {
+app.post("/note/:id", function(req, res) {
 
-  var note = new note(req.body)
+  console.log(req.body)
 
-  note.save()
+  var note = new Note(req.body)
+  console.log(note)
+
+  //note.save()
   
 });
 
