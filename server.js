@@ -5,6 +5,7 @@ var request = require('request');
 var cheerio = require('cheerio');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
+var logger = require("morgan");
 
 // Initialize express
 var app = express();
@@ -15,6 +16,9 @@ app.use(express.static("public"));
 // Connect Mongoose 
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/mongoid');
+
+// Use morgan logger for logging requests
+app.use(logger("dev"));
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -101,6 +105,7 @@ app.get("/articles", function(req, res) {
 app.get('/articles/:id', function(req, res){
 
   db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {saved: true}})
+  .populate('note')
   .then(function(dbArticle){
     res.redirect("/saved");
   })
@@ -130,6 +135,7 @@ app.post("/note/:id", function(req, res) {
   .then(function(dbNote){
     return db.Article.findOneAndUpdate({_id: req.params.id}, { note: dbNote._id }, { new: true });
     console.log('note saved')
+    res.json(dbNote)
   })
   .catch(function(err) {
     // If an error occurs, send it back to the client

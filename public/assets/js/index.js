@@ -27,21 +27,27 @@ $(document).ready(function(){
             method: "GET",
             url: "articles/" + thisId
         })
-
-        location.reload();
     });
 
     // Save Note
-    $('#save-comment').on('click', function(event){
+    $(document).on('click','#save-comment', function(event){
         event.preventDefault();
 
         var id = $(this).attr("data-id");
         var message = $("#comment-text").val().trim();
         
-        console.log(id)     
         $.ajax({
             method: 'POST',
+            message: $("#comment-text").val().trim(),
             url: "/note/" + id
+        })
+        
+        .then (function(data){
+            console.log(data);
+
+            if(data.note){
+                $("#comment-text").val(data.note.body);
+            }
         })
         
     })
