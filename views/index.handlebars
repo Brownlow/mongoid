@@ -4,11 +4,11 @@
             <div class="col-3">
                 <div id="articles">
                     <div class="card">
-                        <img class="card-img-top" src="{{this.img}}" alt="Thumbnail Image">
+                        {{!-- <img class="card-img-top" src="{{this.img}}" alt="Thumbnail Image"> --}}
                         <h4>{{this.title}}</h4>
                         <a href="{{this.link}}">{{this.link}}</a>
                         <p>{{this.author}}</p>
-                        <p>{{this.date}}</p>
+                        <p class="date">{{this.date}}</p>
                         <button type="submit" id="save-article" data-id="{{this._id}}" class="btn btn-success">Save Article</button>
                     </div>
                 </div>

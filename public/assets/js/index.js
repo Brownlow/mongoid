@@ -25,7 +25,8 @@ $(document).ready(function(){
 
         $.ajax({
             method: "GET",
-            url: "articles/" + thisId
+            url: "articles/" + thisId,
+            data: "true"
         })
         location.reload();
     });
@@ -56,11 +57,11 @@ $(document).ready(function(){
             url: "/note/" + id
         })
         .then (function(data){
-            console.log(data);
+            console.log(data.body);
 
-            if(data.note){
-                $("#comment-text").val(data.note.body);
-            };
+            //if(data.body){
+                $("#comment-text").val(data.body);
+            //};
         });  
     });
 });

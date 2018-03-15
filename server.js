@@ -60,7 +60,7 @@ app.get('/scrape', function(req, res){
 
         var $ = cheerio.load(html);
         $('p.title').each(function(i, element){
-            var img = $(element).parentsUntil('.thing').parentsUntil('.midcol').children('a.thumbnail').attr('class');
+            //var img = $(element).parentsUntil('.thing').parentsUntil('.midcol').children('a.thumbnail').attr('class');
             var title = $(element).text();
             var link = $(element).children().attr('href');
             var author = $(element).siblings('.tagline').children('a').text();
@@ -69,7 +69,7 @@ app.get('/scrape', function(req, res){
         
             newArticle = {
                 id:req.params.id,
-                img: img,
+                //img: img,
                 title: title,
                 link: link,
                 author: author,
@@ -92,7 +92,6 @@ app.get('/scrape', function(req, res){
 
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
-  
   db.Article.find({saved: false})
   .populate('note')
   .then(function(dbArticle){
@@ -107,33 +106,39 @@ app.get("/articles", function(req, res) {
 
 // Route to get all articles and mark them as saved
 app.get('/articles/:id', function(req, res){
+  
+  db.Article.findOne({_id: req.params.id }).then(function(article){
+    // console.log(article)
+    if(!article.saved){
+      db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {saved: true}})
+      .then(function(dbArticle){
+        console.log('article saved')
+        res.redirect("/saved");
+      })
+      .catch(function(err){
+        return res.json(err)
+      })
+    } else {
+      console.log('unsaving it')
+      db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {saved: false}})
+      .then(function(dbArticle){
+        console.log('article unsaved')
+        res.redirect("/");
+      })
+      .catch(function(err){
+        return res.json(err)
+        console.log(err)
+      })
+    } 
+  });
 
-  if(!req.body.saved){
-    db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {saved: true}})
-    
-    .then(function(dbArticle){
-      console.log('article saved')
-      res.redirect("/saved");
-    })
-    .catch(function(err){
-      return res.json(err)
-    })
-  } else {
-    db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {saved: false}})
-    .then(function(dbArticle){
-      console.log('article unsaved')
-      res.redirect("/");
-    })
-    .catch(function(err){
-      return res.json(err)
-    })
-  } 
+  
 })
 
 // Route to get all articles marked as saved
 app.get('/saved', function(req, res){
-
     db.Article.find({ saved: true })
+    .populate('note') 
     .then(function(dbArticle) {
       // View the added result in the console
       res.render("saved", {dbArticle});
@@ -146,13 +151,12 @@ app.get('/saved', function(req, res){
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.post("/note/:id", function(req, res) {
-
   db.Note.create(req.body)
   .then(function(dbNote){
     return db.Article.findOneAndUpdate({_id: req.params.id}, { note: dbNote._id }, { new: true })
   })
   .then(function(dbNote){
-    res.json(dbNote)
+    res.json(req.body)
   })
   .catch(function(err) {
     // If an error occurs, send it back to the client
