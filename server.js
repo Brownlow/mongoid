@@ -38,7 +38,7 @@ var db = require("./models");
 var newArticle = {};
 
 app.get("/", function(req, res) {
-	db.Article.find({}, function(err, data) {
+	db.Article.find({saved: false}, function(err, data) {
 		if(data.length === 0) {
 			res.render("placeholder", {
         message: "There's nothing scraped yet. Please click \"Scrape For Newest Articles\" for fresh and delicious news."
@@ -73,6 +73,7 @@ app.get('/scrape', function(req, res){
             
             db.Article.create(newArticle)
             .then(function(dbArticle) {
+
             })
             .catch(function(err) {
               return res.json(err);
@@ -87,7 +88,8 @@ app.get('/scrape', function(req, res){
 app.get("/articles", function(req, res) {
   db.Article.find({saved: false})
   .then(function(dbArticle){
-    res.json(dbArticle)
+    //res.json(dbArticle)
+    res.redirect("/saved");
   })
   .catch(function(err) {
     // If an error occurs, send it back to the client
@@ -124,17 +126,15 @@ app.get('/saved', function(req, res){
 // Route for grabbing a specific Article by id, populate it with it's note
 app.post("/note/:id", function(req, res) {
 
-  var note = new Note(req.body);
-	note.save(function(err, doc) {
-		if (err) throw err;
-		Article.findByIdAndUpdate(req.params.id, {$set: {"note": doc._id}}, {new: true}, function(err, newdoc) {
-			if (err) throw err;
-			else {
-				res.send(newdoc);
-			}
-		});
-	});
-  
+  db.Note.create(req.body)
+  .then(function(dbNote){
+    return db.Article.findOneAndUpdate({_id: req.params.id}, { note: dbNote._id }, { new: true });
+    console.log('note saved')
+  })
+  .catch(function(err) {
+    // If an error occurs, send it back to the client
+    res.json(err);
+  });
 });
 
 

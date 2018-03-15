@@ -13,6 +13,8 @@ $(document).ready(function(){
         // Launch Alert Modal
         $('#myModal').modal()
 
+        location.reload();
+
     });
 
     // Save Article 
@@ -25,6 +27,8 @@ $(document).ready(function(){
             method: "GET",
             url: "articles/" + thisId
         })
+
+        location.reload();
     });
 
     // Save Note
