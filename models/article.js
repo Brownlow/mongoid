@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var articleSchema = new Schema({
+  img: String,
   title:  String,
   author: String,
   body:   String,

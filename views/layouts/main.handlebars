@@ -4,6 +4,7 @@
 	    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="/assets/css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Cabin:400,500" rel="stylesheet">        
     </head>
     <body>
         <nav class="navbar">
@@ -11,10 +12,12 @@
                 <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
                 <li class="nav-item"><a  class="nav-link" href="/saved">Saved Articles</a></li>
             </ul>
-            <button class="button btn-success" id="get-news">Get News</button>
+            <button class="btn btn-success" id="get-news">Get News</button>
         </nav>
         <div class="jumbotron">
           <h1 class="display-4">Scrappy Scrapper</h1>
+            <p class="lead">Doing the stuff with the thing.</p>
+
           <hr class="my-4">
         </div>
         {{{body}}}
@@ -24,3 +27,21 @@
         <script src="/assets/js/index.js"></script>
     </body>
 </html>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h3>Loading New Articles</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Alrighty Then</button>
+      </div>
+    </div>
+  </div>
+</div>

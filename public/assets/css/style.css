@@ -1,8 +1,25 @@
 .card{
     padding:10px;
     margin-bottom:20px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.05);
 }
 
 #leave-note{
     margin-bottom:5px;
+}
+
+h4{
+    font-family: 'Cabin', sans-serif;
+    font-weight:500;
+}
+
+.date{
+    color: #999;
+    font-size: 13px;
+    margin-top: -20px;
+}
+
+.jumbotron{
+    background-image: url('../images/news-bg-2.jpg');
+    background-position: 0px -550px;
 }

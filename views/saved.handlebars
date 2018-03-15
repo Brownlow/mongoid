@@ -4,12 +4,13 @@
             <div class="col-3">
                 <div id="articles">
                     <div class="card">
+                        <img class="card-img-top" src="{{this.img}}" alt="Thumbnail Image">
                         <h4>{{this.title}}</h4>
                         <a href="{{this.link}}">{{this.link}}</a>
                         <p>{{this.author}}</p>
-                        <p>{{this.date}}</p>
-                        <button type="submit" id="leave-note" data-id="{{this._id}}" class="btn btn-success" data-toggle="modal" data-target="#noteModal"> Leave Note</button>
-                        <button type="submit" id="unSave-article" data-id="{{this._id}}" class="btn btn-success"> UnSave</button>
+                        <p class="date">{{this.date}}</p>
+                        <button type="submit" id="leave-note" data-id="{{this._id}}" class="btn btn-success" data-toggle="modal" data-target="#noteModal">Notes</button>
+                        <button type="submit" id="unsave-article" data-id="{{this._id}}" class="btn btn-success"> UnSave</button>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
     
-    // Scrape Data and return articles from DB
+    // Scrape Data and return articles from DB  ==============================================
     $('#get-news').on('click', function(event){
         event.preventDefault();
 
@@ -13,11 +13,11 @@ $(document).ready(function(){
         // Launch Alert Modal
         $('#myModal').modal()
 
-        location.reload();
+       // location.reload();
 
     });
 
-    // Save Article 
+    // Save Article  ==============================================
     $(document).on('click', '#save-article', function(event){
         event.preventDefault();
 
@@ -27,9 +27,23 @@ $(document).ready(function(){
             method: "GET",
             url: "articles/" + thisId
         })
+        location.reload();
     });
 
-    // Save Note
+    //Unsave Article  ==============================================
+    $(document).on('click', '#unsave-article', function(event){
+        event.preventDefault();
+
+        var id = $(this).attr("data-id");
+
+        $.ajax({
+            method: 'GET',
+            url: "articles/" + id
+        })
+        location.reload();
+    })
+
+    // Save Comment  ==============================================
     $(document).on('click','#save-comment', function(event){
         event.preventDefault();
 
@@ -38,19 +52,17 @@ $(document).ready(function(){
         
         $.ajax({
             method: 'POST',
-            message: $("#comment-text").val().trim(),
+            data: { body: message },
             url: "/note/" + id
         })
-        
         .then (function(data){
             console.log(data);
 
             if(data.note){
                 $("#comment-text").val(data.note.body);
-            }
-        })
-        
-    })
+            };
+        });  
+    });
 });
 
  
