@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+    
     // Scrape Data and return articles from DB
     $('#get-news').on('click', function(event){
         event.preventDefault();
@@ -17,10 +18,9 @@ $(document).ready(function(){
     // Save Article 
     $(document).on('click', '#save-article', function(event){
         event.preventDefault();
-        // console.log("Above")
+
         var thisId = $(this).attr("data-id");
-        // console.log(thisId)
-        // console.log("AYO!")
+
         $.ajax({
             method: "GET",
             url: "articles/" + thisId
@@ -31,13 +31,12 @@ $(document).ready(function(){
     $('#save-comment').on('click', function(event){
         event.preventDefault();
 
-        var id = $(this).attr("value");
+        var id = $(this).attr("data-id");
+        var message = $("#comment-text").val().trim();
         
-	    var message = $("#comment-text").val().trim();
-        console.log(message)     
+        console.log(id)     
         $.ajax({
             method: 'POST',
-            message: 'message',
             url: "/note/" + id
         })
         

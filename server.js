@@ -124,12 +124,16 @@ app.get('/saved', function(req, res){
 // Route for grabbing a specific Article by id, populate it with it's note
 app.post("/note/:id", function(req, res) {
 
-  console.log(req.body)
-
-  var note = new Note(req.body)
-  console.log(note)
-
-  //note.save()
+  var note = new Note(req.body);
+	note.save(function(err, doc) {
+		if (err) throw err;
+		Article.findByIdAndUpdate(req.params.id, {$set: {"note": doc._id}}, {new: true}, function(err, newdoc) {
+			if (err) throw err;
+			else {
+				res.send(newdoc);
+			}
+		});
+	});
   
 });
 
