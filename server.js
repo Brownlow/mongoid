@@ -15,13 +15,13 @@ app.use(express.static("public"));
 
 // Connect Mongoose 
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
+mongoose.connect('mongodb://localhost/mongoid');
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 
 // mLab ??
-var MONGODB_URI = "mongodb://heroku_cbp5hb5b:l3qvvdekq966ghouk989eropth@ds215709.mlab.com:15709/heroku_cbp5hb5b" || "mongodb://localhost/mongoid";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoid";
 
 // Mongo - Mongoose
 var db = mongoose.connection;
