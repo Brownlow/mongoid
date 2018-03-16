@@ -162,7 +162,7 @@ app.post("/note/:id", function(req, res) {
   });
 });
 
-var PORT = 8000 || process.env.PORT
+var PORT = process.env.PORT || 8000;
 
 // Listen on Port 8000;
 app.listen(PORT, function(){
