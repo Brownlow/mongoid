@@ -6,7 +6,7 @@ var cheerio = require('cheerio');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var logger = require("morgan");
-
+var db = require("models");
 // Initialize express
 var app = express();
 
@@ -20,7 +20,7 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoid";
 
 // Connect Mongoose 
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, { useMongoClient: true });
+mongoose.connect(MONGODB_URI);
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
@@ -39,7 +39,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({type: "application/vnd.api_json"}));
 
 // Require all models
-var db = require("./models");
+
 
 app.get("/", function(req, res) {
 	db.Article.find({saved: false}, function(err, data) {
