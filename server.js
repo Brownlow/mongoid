@@ -166,8 +166,9 @@ app.post("/note/:id", function(req, res) {
   });
 });
 
+var PORT = 8000 || process.env.PORT
 
 // Listen on Port 8000;
-app.listen(8000, function(){
+app.listen(PORT, function(){
     console.log("App Running on port 8000")
 });
