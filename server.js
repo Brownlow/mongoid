@@ -18,17 +18,13 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoid";
 
 // Connect Mongoose 
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, { useMongoClient: true });
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 
 // Mongo - Mongoose
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log('connection made')
-});
+
 
 // Handlebars
 app.engine("handlebars", exphbs({defaultLayout: 'main'}));
