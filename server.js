@@ -6,7 +6,7 @@ var cheerio = require('cheerio');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var logger = require("morgan");
-var db = require("models");
+var db = require("./models");
 // Initialize express
 var app = express();
 
