@@ -13,15 +13,15 @@ var app = express();
 // Public folder
 app.use(express.static("public"));
 
+// mLab ??
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoid";
+
 // Connect Mongoose 
 mongoose.Promise = Promise;
-mongoose.connect('mongodb://localhost/mongoid');
+mongoose.connect(MONGODB_URI);
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
-
-// mLab ??
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoid";
 
 // Mongo - Mongoose
 var db = mongoose.connection;
