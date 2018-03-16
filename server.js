@@ -41,8 +41,6 @@ app.use(bodyParser.json({type: "application/vnd.api_json"}));
 // Require all models
 var db = require("./models");
 
-var newArticle = {};
-
 app.get("/", function(req, res) {
 	db.Article.find({saved: false}, function(err, data) {
 		if(data.length === 0) {
@@ -69,7 +67,7 @@ app.get('/scrape', function(req, res){
             var date = $(element).siblings('.tagline').children('time').text();
             var saved = false;
         
-            newArticle = {
+            var newArticle = {
                 id:req.params.id,
                 //img: img,
                 title: title,
