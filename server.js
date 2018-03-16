@@ -21,7 +21,7 @@ mongoose.connect('mongodb://localhost/mongoid');
 app.use(logger("dev"));
 
 // mLab ??
-
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
 // Mongo - Mongoose
 var db = mongoose.connection;
