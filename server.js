@@ -21,7 +21,7 @@ mongoose.connect(MONGODB_URI);
 app.use(logger("dev"));
 
 // mLab ??
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoid";
+var MONGODB_URI = "mongodb://heroku_cbp5hb5b:l3qvvdekq966ghouk989eropth@ds215709.mlab.com:15709/heroku_cbp5hb5b" || "mongodb://localhost/mongoid";
 
 // Mongo - Mongoose
 var db = mongoose.connection;
