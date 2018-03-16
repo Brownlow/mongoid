@@ -10,6 +10,8 @@ var logger = require("morgan");
 // Initialize express
 var app = express();
 
+var PORT = process.env.PORT || 8000;
+
 // Public folder
 app.use(express.static("public"));
 
@@ -162,7 +164,7 @@ app.post("/note/:id", function(req, res) {
   });
 });
 
-var PORT = process.env.PORT || 8000;
+
 
 // Listen on Port 8000;
 app.listen(PORT, function(){
