@@ -20,6 +20,10 @@ mongoose.connect('mongodb://localhost/mongoid');
 // Use morgan logger for logging requests
 app.use(logger("dev"));
 
+// mLab ??
+
+
+// Mongo - Mongoose
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -128,12 +132,10 @@ app.get('/articles/:id', function(req, res){
       .catch(function(err){
         return res.json(err)
         console.log(err)
-      })
-    } 
-  });
-
-  
-})
+      });
+    };
+  });  
+});
 
 // Route to get all articles marked as saved
 app.get('/saved', function(req, res){
